@@ -19,6 +19,7 @@ const SubHeader =({current,detail})=>{
             <h2>{current}</h2>
             <hr />
         </Col>
+        
     </Row>
  )
 }
