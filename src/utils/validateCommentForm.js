@@ -1,6 +1,6 @@
 export const validateCommentForm = (values) => {
   const errors = {};
-  console.log(errors);
+
   if (!(values.rating <= 5)) {
     errors.rating = "Required";
   }
