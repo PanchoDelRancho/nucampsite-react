@@ -1,13 +1,46 @@
-import {createSlice} from '@reduxjs/toolkit'
-import { CAMPSITES } from "../../app/shared/CAMPSITES";
+import {createSlice, createAsyncThunk, bindActionCreators} from '@reduxjs/toolkit'
+// import { CAMPSITES } from "../../app/shared/CAMPSITES";
+import { baseUrl } from '../../app/shared/baseUrl'
+import { mapImageUrl } from '../../utils/mapImageURL'
+
+export const fetchCampsites = createAsyncThunk(
+  'campsite/fetchCampsites',
+  async () => {
+      const response = await fetch(baseUrl+'campsites')
+      if (!response.ok){
+        return Promise.reject('unable to fetch, status: ' + response.status)
+
+      }
+      const data = await response.json()
+      return data
+  }
+)
+
 
 const initialState = {
-  campsitesArray: CAMPSITES
+  campsitesArray: [],
+  isLoading: true,
+  errMsg:'',
 }
 
 const campsitesSlice = createSlice({
   name : 'campsites',
-  initialState
+  initialState,
+  reducers: {},
+  extraReducers: {
+   [fetchCampsites.pending]:(state)=> {
+    state.isLoading = true
+   }, 
+   [fetchCampsites.fulfilled]: (state,action) =>{
+    state.isLoading = false
+    state.errMsg =''
+    state.campsitesArray = mapImageUrl(action.payload)
+   },
+   [fetchCampsites.rejected]: (state,action) =>{
+    state.isLoading =false
+    state.errMsg = action.error? action.error.message:'fetch failed'
+   }
+  },
 })
 
 export const campsitesReducer = campsitesSlice.reducer

@@ -13,6 +13,8 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import defaultAvatar from "../../app/assets/img/unicorn.png";
 import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 
+
+
 const UserLoginForm = () => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
 
